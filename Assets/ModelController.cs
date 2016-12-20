@@ -25,8 +25,6 @@ public class ModelController: MonoBehaviour {
             targetPose.muscles = new float[HumanTrait.MuscleName.Length];
             System.Array.Copy(hp.muscles, targetPose.muscles, hp.muscles.Length);
         }
-
-        PrintPose();
     }
 	
 	// Update is called once per frame

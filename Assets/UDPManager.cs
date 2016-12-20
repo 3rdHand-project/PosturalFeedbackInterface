@@ -36,14 +36,9 @@ public class UDPManager : MonoBehaviour {
             IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
             byte[] receiveBytes = udp.Receive(ref RemoteIpEndPoint);
             for (int i=0; i < muscleLength; ++i) {
-                Debug.Log("----------------");
-                Debug.Log(i);
                 muscles[i] = System.BitConverter.ToSingle(receiveBytes, i * 4);
-                Debug.Log(muscles[i]);
             }
-            Debug.Log("Sending joint values");
             model.setMuscleValue(muscles);
-            Debug.Log("Values sent");
         }
     }
 }
