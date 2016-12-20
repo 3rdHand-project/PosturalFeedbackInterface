@@ -8,9 +8,11 @@ public class ModelController: MonoBehaviour {
     private bool poseModified;
     private HumanPose targetPose;
 
+    public Transform root;
+
     // Use this for initialization
     void Start () {
-        hph = new HumanPoseHandler(GetComponent<Animator>().avatar, GetComponent<Transform>());
+        hph = new HumanPoseHandler(GetComponent<Animator>().avatar, root);
         hp = new HumanPose();
         poseModified = false;
 
@@ -23,6 +25,8 @@ public class ModelController: MonoBehaviour {
             targetPose.muscles = new float[HumanTrait.MuscleName.Length];
             System.Array.Copy(hp.muscles, targetPose.muscles, hp.muscles.Length);
         }
+
+        PrintPose();
     }
 	
 	// Update is called once per frame
@@ -39,16 +43,16 @@ public class ModelController: MonoBehaviour {
     {
         hph.GetHumanPose(ref hp);
         Debug.Log("------");
-        Debug.Log(hp.bodyPosition);
-        Debug.Log(hp.bodyRotation);
-        foreach (float muscle in hp.muscles)
+        for (int i=0; i < hp.muscles.Length; ++i)
         {
-            Debug.Log(muscle);
+            Debug.Log(i);
+            Debug.Log(hp.muscles[i]);
+            Debug.Log("------------");
         }
         Debug.Log(hp.muscles.Length);
     }
     
-    void setMuscleValue(float[] newMuscles) {
+    public void setMuscleValue(float[] newMuscles) {
         lock (lockObject) {
             System.Array.Copy(newMuscles, targetPose.muscles, newMuscles.Length);
             poseModified = true;
