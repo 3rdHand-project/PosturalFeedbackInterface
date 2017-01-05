@@ -10,17 +10,20 @@ public class UDPManager : MonoBehaviour {
     private static UdpClient udp;
     private Thread thread;
     private ModelController model;
+
+    public string activeModelId;
     private int muscleLength;
     private float[] muscles;
 
     // Use this for initialization
     void Start () {
         udp = new UdpClient(5005);
-        model = GetComponent<ModelController>();
         thread = new Thread(new ThreadStart(ThreadMethod));
         thread.Start();
         muscleLength = HumanTrait.MuscleName.Length;
         muscles = new float[muscleLength];
+        //model = GameObject.Find("CharacterMale").GetComponent<ModelController>();
+        
     }
 	
 	// Update is called once per frame
@@ -29,6 +32,14 @@ public class UDPManager : MonoBehaviour {
     void OnApplicationQuit(){
         udp.Close();
         thread.Abort();
+    }
+
+    void setActiveModel(string id_model) {
+        Debug.Log("------");
+        Debug.Log("ready to activate model");
+        model = GameObject.Find("CharacterMale").GetComponent<ModelController>();
+        model.showModel();
+        Debug.Log("done");
     }
 
     private void ThreadMethod(){

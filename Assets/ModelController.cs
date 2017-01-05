@@ -25,6 +25,9 @@ public class ModelController: MonoBehaviour {
             targetPose.muscles = new float[HumanTrait.MuscleName.Length];
             System.Array.Copy(hp.muscles, targetPose.muscles, hp.muscles.Length);
         }
+
+        // by default hide the model
+        hideModel();
     }
 	
 	// Update is called once per frame
@@ -55,5 +58,17 @@ public class ModelController: MonoBehaviour {
             System.Array.Copy(newMuscles, targetPose.muscles, newMuscles.Length);
             poseModified = true;
         }
+    }
+
+    public void showModel() {
+        Renderer[] rs = GetComponentsInChildren<Renderer>();
+        foreach (Renderer r in rs)
+            r.enabled = true;
+    }
+
+    public void hideModel() {
+        Renderer[] rs = GetComponentsInChildren<Renderer>();
+        foreach (Renderer r in rs)
+            r.enabled = false;
     }
 }
