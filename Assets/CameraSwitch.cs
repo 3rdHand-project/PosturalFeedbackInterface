@@ -6,17 +6,9 @@ public class CameraSwitch : MonoBehaviour {
     public Camera cameraR;
     public Camera cameraL;
 
-    private ModelController modelM;
-    private ModelController modelF;
+    void Start(){}
 
-    void Start()
-    {
-        ShowLeftView();
-        modelM = GameObject.Find("CharacterMale").GetComponent<ModelController>();
-        modelF = GameObject.Find("CharacterFemale").GetComponent<ModelController>();
-    }
-
-    private void ShowRightView()
+    public void ShowRightView()
     {
         cameraR.enabled = true;
         cameraL.enabled = false;
@@ -28,24 +20,24 @@ public class CameraSwitch : MonoBehaviour {
         cameraL.enabled = true;
     }
 
+    public void SwitchCamera(int camId)
+    {
+        if (camId == 0)
+        {
+            ShowRightView();
+        }
+        else if (camId == 1)
+        {
+            ShowLeftView();
+        }
+    }
+
     void Update()
     {
         if (Input.GetKey("a"))
             ShowRightView();
-
+        
         if (Input.GetKey("e"))
             ShowLeftView();
-
-        if (Input.GetKey("q"))
-        {
-            modelM.showModel();
-            modelF.hideModel();
-        }
-
-        if (Input.GetKey("d"))
-        {
-            modelM.hideModel();
-            modelF.showModel();
-        }
     }
 }
