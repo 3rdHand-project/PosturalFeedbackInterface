@@ -35,8 +35,6 @@ public class UDPManager : MonoBehaviour {
 
         isCamSwitched = false;
         isModSwitched = false;
-        camSwitch.SwitchCamera(0);
-        modSwitch.SwitchModel(0);
     }
 
     // Update is called once per frame
@@ -44,12 +42,12 @@ public class UDPManager : MonoBehaviour {
     {
         if (isCamSwitched)
         {
-            camSwitch.SwitchCamera(activeCamID);
+            camSwitch.ShowView(activeCamID);
             isCamSwitched = false;
         }
         if (isModSwitched)
         {
-            modSwitch.SwitchModel(activeModID);
+            modSwitch.ShowModel(activeModID);
             isModSwitched = false;
         }
     }
@@ -60,23 +58,23 @@ public class UDPManager : MonoBehaviour {
         thread.Abort();
     }
 
-    private void readMusclesArray(ref byte[] bytes)
+    private void ReadMusclesArray(ref byte[] bytes)
     {
         for (int i = 0; i < muscleLength; ++i)
         {
             muscles[i] = System.BitConverter.ToSingle(bytes, i * 4);
         }
-        modSwitch.getActiveModel().setMuscleValue(muscles);
+        modSwitch.SetMuscleValue(ref muscles);
     }
 
-    private void readActiveCamera(ref byte[] bytes)
+    private void ReadActiveCamera(ref byte[] bytes)
     {
         int id_camera = System.BitConverter.ToInt32(bytes, 0);
         activeCamID = id_camera;
         isCamSwitched = true;
     }
 
-    private void readActiveModel(ref byte[] bytes)
+    private void ReadActiveModel(ref byte[] bytes)
     {
         int id_model = System.BitConverter.ToInt32(bytes, 0);
         activeModID = id_model;
@@ -94,15 +92,15 @@ public class UDPManager : MonoBehaviour {
             // according to the channel call the correct function
             if (result.Equals("/camera"))
             {
-                readActiveCamera(ref argBytes);
+                ReadActiveCamera(ref argBytes);
             }
             else if (result.Equals("/model"))
             {
-                readActiveModel(ref argBytes);
+                ReadActiveModel(ref argBytes);
             }
             else if (result.Equals("/posture"))
             {
-                readMusclesArray(ref argBytes);
+                ReadMusclesArray(ref argBytes);
             }
         }
     }

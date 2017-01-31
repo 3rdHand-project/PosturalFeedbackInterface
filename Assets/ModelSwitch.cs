@@ -6,54 +6,47 @@ public class ModelSwitch : MonoBehaviour
 {
     public ModelController modelM;
     public ModelController modelF;
+    public int initialModID;
 
-    private ModelController activeModel;
+    private ModelController[] models;
+    private int activeModID;
 
-    void Start() {}
-
-    public ModelController getActiveModel()
+    void Awake()
     {
-        return activeModel;
+        models = new ModelController[] { modelM, modelF };
+        activeModID = initialModID;
     }
 
-    public void ShowMen()
+    void Start()
     {
-        modelM.showModel();
-        modelF.hideModel();
-        activeModel = modelM;
+        ShowModel(initialModID);
     }
 
-    public void ShowWomen()
+    public ModelController GetActiveModel()
     {
-        modelM.hideModel();
-        modelF.showModel();
-        activeModel = modelF;
+        return models[activeModID];
     }
 
-    public void SwitchModel(int modId)
+    public void ShowModel(int modID)
     {
-        if (modId == 0)
-        {
-            ShowMen();
-        }
-        else if (modId == 1)
-        {
-            ShowWomen();
-        }
+        models[activeModID].HideModel();
+        models[modID].ShowModel();
+        activeModID = modID;
     }
 
     void Update()
     {
         if (Input.GetKey("q"))
-        {
-            modelM.showModel();
-            modelF.hideModel();
-        }
-
+            ShowModel(0);
         if (Input.GetKey("d"))
+            ShowModel(1);
+    }
+
+    public void SetMuscleValue(ref float[] newMuscles)
+    {
+        foreach (ModelController m in models)
         {
-            modelM.hideModel();
-            modelF.showModel();
+            m.SetMuscleValue(ref newMuscles);
         }
     }
 }

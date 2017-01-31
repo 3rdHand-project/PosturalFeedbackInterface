@@ -3,70 +3,102 @@ using System.Collections;
 
 public class ModelController: MonoBehaviour {
     static readonly object lockObject = new object();
+
     private HumanPoseHandler hph;
-    private HumanPose hp;
     private bool poseModified;
-    private HumanPose targetPose;
+    private HumanPose[] targetPoses;
+    private int poseStep;
+    private HumanPose currentPose;
 
     public Transform root;
+
+    void Awake()
+    {
+        // by default hide the model
+        HideModel();
+    }
 
     // Use this for initialization
     void Start () {
         hph = new HumanPoseHandler(GetComponent<Animator>().avatar, root);
-        hp = new HumanPose();
+        currentPose = new HumanPose();
+        hph.GetHumanPose(ref currentPose);
         poseModified = false;
-
-        // initialize targetPose
-        lock (lockObject) {
-            hph.GetHumanPose(ref hp);
-            targetPose = new HumanPose();
-            targetPose.bodyPosition = hp.bodyPosition;
-            targetPose.bodyRotation = hp.bodyRotation;
-            targetPose.muscles = new float[HumanTrait.MuscleName.Length];
-            System.Array.Copy(hp.muscles, targetPose.muscles, hp.muscles.Length);
-        }
-
-        // by default hide the model
-        hideModel();
+        poseStep = 0;
     }
 	
 	// Update is called once per frame
-	void Update () { 
+	void Update () {
         if (poseModified) {
-            poseModified = false;
             lock (lockObject) {
-                hph.SetHumanPose(ref targetPose);
+                if (poseStep < targetPoses.Length)
+                {
+                    hph.SetHumanPose(ref targetPoses[poseStep]);
+                    currentPose = targetPoses[poseStep];
+                    poseStep += 1;
+                }
+                else
+                {
+                    poseModified = false;
+                    poseStep = 0;
+                }
             }
         }
+
     }
 
-    void PrintPose()
+    public void PrintPose()
     {
-        hph.GetHumanPose(ref hp);
+        hph.GetHumanPose(ref currentPose);
         Debug.Log("------");
-        for (int i=0; i < hp.muscles.Length; ++i)
+        for (int i=0; i < currentPose.muscles.Length; ++i)
         {
             Debug.Log(i);
-            Debug.Log(hp.muscles[i]);
+            Debug.Log(currentPose.muscles[i]);
             Debug.Log("------------");
         }
-        Debug.Log(hp.muscles.Length);
+        Debug.Log(currentPose.muscles.Length);
     }
     
-    public void setMuscleValue(float[] newMuscles) {
+    private HumanPose MusclesToPose(ref float[] muscles_array)
+    {
+        HumanPose pose = new HumanPose();
+        pose.bodyPosition = currentPose.bodyPosition;
+        pose.bodyRotation = currentPose.bodyRotation;
+        pose.muscles = new float[currentPose.muscles.Length];
+        System.Array.Copy(muscles_array, pose.muscles, muscles_array.Length);
+        return pose;
+    }
+
+    public void SetMuscleValue(ref float[] newMuscles) {
         lock (lockObject) {
-            System.Array.Copy(newMuscles, targetPose.muscles, newMuscles.Length);
+            targetPoses = new HumanPose[1];
+            targetPoses[0] = MusclesToPose(ref newMuscles);
             poseModified = true;
         }
     }
 
-    public void showModel() {
+    public void SetPath(ref float[][] newPath)
+    {
+        int pathLenght = newPath.Length;
+        lock(lockObject)
+        {
+            targetPoses = new HumanPose[pathLenght];
+            for (int i=0; i<pathLenght; ++i)
+            {
+                targetPoses[i] = MusclesToPose(ref newPath[i]);
+            }
+            poseModified = true;
+        }
+    }
+
+    public void ShowModel() {
         Renderer[] rs = GetComponentsInChildren<Renderer>();
         foreach (Renderer r in rs)
             r.enabled = true;
     }
 
-    public void hideModel() {
+    public void HideModel() {
         Renderer[] rs = GetComponentsInChildren<Renderer>();
         foreach (Renderer r in rs)
             r.enabled = false;

@@ -4,40 +4,43 @@ using System.Threading;
 
 public class CameraSwitch : MonoBehaviour {
     public Camera cameraR;
+    public Camera cameraM;
     public Camera cameraL;
+    public int initialCamID;
 
-    void Start(){}
+    private Camera[] cameras;
+    private int activeCamID;
 
-    public void ShowRightView()
+    void Awake()
     {
-        cameraR.enabled = true;
-        cameraL.enabled = false;
+        cameras = new Camera[] { cameraR, cameraM, cameraL };
+        activeCamID = initialCamID;
     }
 
-    public void ShowLeftView()
+    void Start()
     {
-        cameraR.enabled = false;
-        cameraL.enabled = true;
+        ShowView(initialCamID);
     }
 
-    public void SwitchCamera(int camId)
+    public Camera GetActiveCamera()
     {
-        if (camId == 0)
-        {
-            ShowRightView();
-        }
-        else if (camId == 1)
-        {
-            ShowLeftView();
-        }
+        return cameras[activeCamID];
+    }
+
+    public void ShowView(int camID)
+    {
+        cameras[activeCamID].enabled = false;
+        cameras[camID].enabled = true;
+        activeCamID = camID;
     }
 
     void Update()
     {
         if (Input.GetKey("a"))
-            ShowRightView();
-        
+            ShowView(0);
+        if (Input.GetKey("z"))
+            ShowView(1);
         if (Input.GetKey("e"))
-            ShowLeftView();
+            ShowView(2);
     }
 }
