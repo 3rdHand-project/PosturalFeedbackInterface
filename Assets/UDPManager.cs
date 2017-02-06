@@ -14,9 +14,11 @@ public class UDPManager : MonoBehaviour {
 
     private bool isCamSwitched;
     private bool isModSwitched;
+    private bool isFeedback;
 
     private int activeCamID;
     private int activeModID;
+    private string[] activeFeedbackPoints;
 
     private int muscleLength;
     private float[] muscles;
@@ -35,6 +37,7 @@ public class UDPManager : MonoBehaviour {
 
         isCamSwitched = false;
         isModSwitched = false;
+        isFeedback = false;
     }
 
     // Update is called once per frame
@@ -49,6 +52,11 @@ public class UDPManager : MonoBehaviour {
         {
             modSwitch.ShowModel(activeModID);
             isModSwitched = false;
+        }
+        if (isFeedback)
+        {
+            modSwitch.ShowFeedback(ref activeFeedbackPoints);
+            isFeedback = false;
         }
     }
 
@@ -81,6 +89,13 @@ public class UDPManager : MonoBehaviour {
         isModSwitched = true;
     }
 
+    private void ReadRiskArray(ref byte[] bytes)
+    {
+        string riskPointsStr = Encoding.UTF8.GetString(bytes);
+        activeFeedbackPoints = riskPointsStr.Split('|');
+        isFeedback = true;
+    }
+
     private void ThreadMethod()
     {
         while (true) {
@@ -91,17 +106,13 @@ public class UDPManager : MonoBehaviour {
             byte[] argBytes = udp.Receive(ref RemoteIpEndPoint);
             // according to the channel call the correct function
             if (result.Equals("/camera"))
-            {
                 ReadActiveCamera(ref argBytes);
-            }
             else if (result.Equals("/model"))
-            {
                 ReadActiveModel(ref argBytes);
-            }
             else if (result.Equals("/posture"))
-            {
                 ReadMusclesArray(ref argBytes);
-            }
+            else if (result.Equals("/risk"))
+                ReadRiskArray(ref argBytes);
         }
     }
 }

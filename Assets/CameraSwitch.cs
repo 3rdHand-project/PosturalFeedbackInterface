@@ -3,34 +3,47 @@ using System.Collections;
 using System.Threading;
 
 public class CameraSwitch : MonoBehaviour {
-    public Camera cameraR;
-    public Camera cameraM;
-    public Camera cameraL;
+    public GameObject cameraR;
+    public GameObject cameraM;
+    public GameObject cameraL;
     public int initialCamID;
 
-    private Camera[] cameras;
+    private GameObject[] cameras;
     private int activeCamID;
 
     void Awake()
     {
-        cameras = new Camera[] { cameraR, cameraM, cameraL };
+        cameras = new GameObject[] { cameraR, cameraM, cameraL };
         activeCamID = initialCamID;
     }
 
     void Start()
     {
+        for(int i=0; i<cameras.Length; ++i)
+        {
+            ActivateCamera(i, false);
+        }
         ShowView(initialCamID);
     }
 
-    public Camera GetActiveCamera()
+    public GameObject GetActiveCamera()
     {
         return cameras[activeCamID];
     }
 
+    public void ActivateCamera(int camID, bool activate)
+    {
+        Camera[] Cams = cameras[camID].GetComponentsInChildren<Camera>();
+        for (int i = 0; i < Cams.Length; ++i)
+        {
+            Cams[i].enabled = activate;
+        }
+    }
+
     public void ShowView(int camID)
     {
-        cameras[activeCamID].enabled = false;
-        cameras[camID].enabled = true;
+        ActivateCamera(activeCamID, false);
+        ActivateCamera(camID, true);
         activeCamID = camID;
     }
 
