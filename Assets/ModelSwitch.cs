@@ -20,7 +20,7 @@ public class ModelSwitch : MonoBehaviour
         models = new ModelController[] { controlM, controlF };
         feedbacks = new RiskFeedback[] { feedbackM, feedbackF };
         activeModID = initialModID;
-        activeFeedbackPoints = new string[] { };
+        activeFeedbackPoints = new string[] {};
     }
 
     void Start()

@@ -100,19 +100,27 @@ public class UDPManager : MonoBehaviour {
     {
         while (true) {
             IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-            byte[] receiveBytes = udp.Receive(ref RemoteIpEndPoint);
-            string result = Encoding.UTF8.GetString(receiveBytes);
+            byte[] receivedBytes = udp.Receive(ref RemoteIpEndPoint);
+            int channel = System.BitConverter.ToInt32(receivedBytes, 0);
             // read arguments that should be directly sent after
-            byte[] argBytes = udp.Receive(ref RemoteIpEndPoint);
+            byte[] argBytes = new byte[receivedBytes.Length - 4];
+            System.Array.Copy(receivedBytes, 4, argBytes, 0, argBytes.Length);
             // according to the channel call the correct function
-            if (result.Equals("/camera"))
-                ReadActiveCamera(ref argBytes);
-            else if (result.Equals("/model"))
-                ReadActiveModel(ref argBytes);
-            else if (result.Equals("/posture"))
-                ReadMusclesArray(ref argBytes);
-            else if (result.Equals("/risk"))
-                ReadRiskArray(ref argBytes);
+            switch (channel)
+            {
+                case 1:
+                    ReadMusclesArray(ref argBytes);
+                    break;
+                case 2:
+                    ReadActiveCamera(ref argBytes);
+                    break;
+                case 3:
+                    ReadActiveModel(ref argBytes);
+                    break;
+                case 4:
+                    ReadRiskArray(ref argBytes);
+                    break;
+            }
         }
     }
 }

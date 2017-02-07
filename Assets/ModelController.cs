@@ -14,6 +14,8 @@ public class ModelController: MonoBehaviour {
 
     void Awake()
     {
+        // add some transparency
+        // AddTransparency();
         // by default hide the model
         HideModel();
     }
@@ -89,6 +91,18 @@ public class ModelController: MonoBehaviour {
                 targetPoses[i] = MusclesToPose(ref newPath[i]);
             }
             poseModified = true;
+        }
+    }
+
+    private void AddTransparency()
+    {
+        Renderer[] rs = GetComponentsInChildren<Renderer>();
+        foreach (Renderer r in rs)
+        {
+            r.material.shader = Shader.Find("Transparent/Diffuse");
+            Color c = r.material.color;
+            c.a = 1.0f;
+            r.material.color = c;
         }
     }
 

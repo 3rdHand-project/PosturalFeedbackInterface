@@ -33,7 +33,9 @@ public class RiskFeedback : MonoBehaviour {
             s.layer = 8;
             s.transform.parent = bodyT[str];
             s.transform.localPosition = new Vector3(0, 0, 0); 
-            s.transform.localScale = new Vector3(.1f, .1f, .1f);
+            s.transform.localScale = new Vector3(.15f, .15f, .15f);
+            s.GetComponent<Renderer>().material.color = Color.red;
+            
             RenderSphere(s, false);
             spheres.Add(str, s);
         }
