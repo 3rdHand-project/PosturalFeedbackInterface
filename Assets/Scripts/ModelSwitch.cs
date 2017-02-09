@@ -13,18 +13,19 @@ public class ModelSwitch : MonoBehaviour
     private ModelController[] models;
     private RiskFeedback[] feedbacks;
     private int activeModID;
-    private string[] activeFeedbackPoints;
+    private float[] activeFeedbackPoints;
 
     void Awake()
     {
         models = new ModelController[] { controlM, controlF };
         feedbacks = new RiskFeedback[] { feedbackM, feedbackF };
         activeModID = initialModID;
-        activeFeedbackPoints = new string[] {};
     }
 
     void Start()
     {
+        int nb_feedback = feedbacks[initialModID].GetNumberOfFeedbackPoints();
+        activeFeedbackPoints = new float[nb_feedback];
         ShowModel(initialModID);
     }
 
@@ -61,12 +62,17 @@ public class ModelSwitch : MonoBehaviour
         foreach (RiskFeedback f in feedbacks)
             f.DeactivateAll();
         // only activate active model
-        feedbacks[activeModID].ActivatePoint(ref activeFeedbackPoints, true);
+        feedbacks[activeModID].ActivatePoint(ref activeFeedbackPoints);
     }
 
-    public void ShowFeedback(ref string[] feedbackPoints)
+    public void ShowFeedback(ref float[] feedbackPoints)
     {
         activeFeedbackPoints = feedbackPoints;
         ShowFeedback();        
+    }
+
+    public int GetNumberOfFeedbackPoints()
+    {
+        return feedbacks[activeModID].GetNumberOfFeedbackPoints();
     }
 }

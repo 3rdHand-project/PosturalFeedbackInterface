@@ -5,10 +5,11 @@ using UnityEngine;
 public class RiskFeedback : MonoBehaviour {
     public GameObject model;
     private Dictionary<string, GameObject> spheres;
+    private List<string> sphereNames;
 
     void Awake ()
     {
-        List<string> sphereNames = new List<string>() { "Spine", "Neck", "LeftArm", "RightArm", "LeftForeArm", "RightForeArm", "LeftHand", "RightHand" };
+        sphereNames = new List<string>() { "Spine", "Neck", "LeftArm", "RightArm", "LeftForeArm", "RightForeArm", "LeftHand", "RightHand" };
         spheres = new Dictionary<string, GameObject>();
 
         Transform[] allChilds = GetComponentsInChildren<Transform>();
@@ -34,8 +35,6 @@ public class RiskFeedback : MonoBehaviour {
             s.transform.parent = bodyT[str];
             s.transform.localPosition = new Vector3(0, 0, 0); 
             s.transform.localScale = new Vector3(.15f, .15f, .15f);
-            s.GetComponent<Renderer>().material.color = Color.red;
-            
             RenderSphere(s, false);
             spheres.Add(str, s);
         }
@@ -47,13 +46,20 @@ public class RiskFeedback : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {}
 
+    private void RenderSphere(GameObject s, float color_value)
+    {
+        Renderer r = s.GetComponentInChildren<Renderer>();
+        r.material.color = Color.Lerp(Color.green, Color.red, color_value);
+        r.enabled = true;
+    }
+
     private void RenderSphere(GameObject s, bool activate)
     {
         Renderer r = s.GetComponentInChildren<Renderer>();
         r.enabled = activate;
     }
 
-    public void ActivatePoint(string pointName, bool activate)
+    public void ActivatePoint(string pointName,  bool activate)
     {
         RenderSphere(spheres[pointName], activate);
     }
@@ -61,8 +67,20 @@ public class RiskFeedback : MonoBehaviour {
     public void ActivatePoint(ref string[] pointNames, bool activate)
     {
         foreach(string str in pointNames)
-        {
             ActivatePoint(str, activate);
+    }
+
+    public void ActivatePoint(string pointName, float pointValue)
+    {
+        RenderSphere(spheres[pointName], pointValue);
+    }
+
+    public void ActivatePoint(ref float[] pointValues)
+    {
+        for (int i =0; i<pointValues.Length; ++i)
+        {
+            string pointName = sphereNames[i];
+            ActivatePoint(pointName, pointValues[i]);
         }
     }
 
@@ -72,5 +90,10 @@ public class RiskFeedback : MonoBehaviour {
         {
             RenderSphere(entry.Value, false);   
         }
+    }
+
+    public int GetNumberOfFeedbackPoints()
+    {
+        return sphereNames.Count;
     }
 }

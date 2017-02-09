@@ -18,7 +18,7 @@ public class UDPManager : MonoBehaviour {
 
     private int activeCamID;
     private int activeModID;
-    private string[] activeFeedbackPoints;
+    private float[] activeFeedbackPoints;
 
     private int muscleLength;
     private float[] muscles;
@@ -38,6 +38,8 @@ public class UDPManager : MonoBehaviour {
         isCamSwitched = false;
         isModSwitched = false;
         isFeedback = false;
+
+        activeFeedbackPoints = new float[modSwitch.GetNumberOfFeedbackPoints()];
     }
 
     // Update is called once per frame
@@ -69,9 +71,7 @@ public class UDPManager : MonoBehaviour {
     private void ReadMusclesArray(ref byte[] bytes)
     {
         for (int i = 0; i < muscleLength; ++i)
-        {
             muscles[i] = System.BitConverter.ToSingle(bytes, i * 4);
-        }
         modSwitch.SetMuscleValue(ref muscles);
     }
 
@@ -91,8 +91,8 @@ public class UDPManager : MonoBehaviour {
 
     private void ReadRiskArray(ref byte[] bytes)
     {
-        string riskPointsStr = Encoding.UTF8.GetString(bytes);
-        activeFeedbackPoints = riskPointsStr.Split('|');
+        for (int i = 0; i < modSwitch.GetNumberOfFeedbackPoints(); ++i)
+            activeFeedbackPoints[i] = System.BitConverter.ToSingle(bytes, i * 4);
         isFeedback = true;
     }
 

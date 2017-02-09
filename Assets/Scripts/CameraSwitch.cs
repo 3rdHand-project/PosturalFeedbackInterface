@@ -6,6 +6,7 @@ public class CameraSwitch : MonoBehaviour {
     public GameObject cameraR;
     public GameObject cameraM;
     public GameObject cameraL;
+    public GameObject cameraB;
     public int initialCamID;
 
     private GameObject[] cameras;
@@ -13,15 +14,22 @@ public class CameraSwitch : MonoBehaviour {
 
     void Awake()
     {
-        cameras = new GameObject[] { cameraR, cameraM, cameraL };
+        cameras = new GameObject[] { cameraR, cameraM, cameraL, cameraB };
         activeCamID = initialCamID;
     }
 
     void Start()
     {
+        // deactivate all cameras
         for(int i=0; i<cameras.Length; ++i)
         {
-            ActivateCamera(i, false);
+            Camera[] Cams = cameras[i].GetComponentsInChildren<Camera>();
+            for (int j = 0; j < Cams.Length; ++j)
+            {
+                Cams[j].enabled = false;
+            }
+            Light light = cameras[i].GetComponentInChildren<Light>();
+            light.enabled = false;
         }
         ShowView(initialCamID);
     }
@@ -38,6 +46,9 @@ public class CameraSwitch : MonoBehaviour {
         {
             Cams[i].enabled = activate;
         }
+
+        Light light = cameras[camID].GetComponentInChildren<Light>();
+        light.enabled = activate;
     }
 
     public void ShowView(int camID)
@@ -55,5 +66,7 @@ public class CameraSwitch : MonoBehaviour {
             ShowView(1);
         if (Input.GetKey("e"))
             ShowView(2);
+        if (Input.GetKey("r"))
+            ShowView(3);
     }
 }
