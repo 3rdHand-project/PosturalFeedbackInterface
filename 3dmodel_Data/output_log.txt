@@ -2,10 +2,10 @@ Mono path[0] = 'C:/Users/Yoan/Documents/UnityAvatarControl/3dmodel_Data/Managed'
 Mono path[1] = 'C:/Users/Yoan/Documents/UnityAvatarControl/3dmodel_Data/Mono'
 Mono config path = 'C:/Users/Yoan/Documents/UnityAvatarControl/3dmodel_Data/Mono/etc'
 PlayerConnection initialized from C:/Users/Yoan/Documents/UnityAvatarControl/3dmodel_Data (debug = 0)
-PlayerConnection initialized network socket : 0.0.0.0 55496
-Multi-casting "[IP] 193.50.110.237 [Port] 55496 [Flags] 2 [Guid] 3512466458 [EditorId] 3908614548 [Version] 1048832 [Id] WindowsPlayer(BaxterFlowers) [Debug] 0" to [225.0.0.222:54997]...
-Started listening to [0.0.0.0:55496]
-PlayerConnection already initialized - listening to [0.0.0.0:55496]
+PlayerConnection initialized network socket : 0.0.0.0 55349
+Multi-casting "[IP] 193.50.110.237 [Port] 55349 [Flags] 2 [Guid] 953598005 [EditorId] 3390647503 [Version] 1048832 [Id] WindowsPlayer(BaxterFlowers) [Debug] 0" to [225.0.0.222:54997]...
+Started listening to [0.0.0.0:55349]
+PlayerConnection already initialized - listening to [0.0.0.0:55349]
 Initialize engine version: 5.5.1f1 (88d00a7498cd)
 GfxDevice: creating device client; threaded=1
 Direct3D:
@@ -29,14 +29,14 @@ Platform assembly: C:\Users\Yoan\Documents\UnityAvatarControl\3dmodel_Data\Manag
 Loading C:\Users\Yoan\Documents\UnityAvatarControl\3dmodel_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
 Platform assembly: C:\Users\Yoan\Documents\UnityAvatarControl\3dmodel_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
 Loading C:\Users\Yoan\Documents\UnityAvatarControl\3dmodel_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
-- Completed reload, in  0.073 seconds
+- Completed reload, in  0.045 seconds
 Platform assembly: C:\Users\Yoan\Documents\UnityAvatarControl\3dmodel_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Yoan\Documents\UnityAvatarControl\3dmodel_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 1.611325 ms
+UnloadTime: 1.376982 ms
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 2830 -> priority: 1 
-  Thread -> id: 2da4 -> priority: 1 
+  Thread -> id: 35a0 -> priority: 1 
+  Thread -> id: 2a08 -> priority: 1 
