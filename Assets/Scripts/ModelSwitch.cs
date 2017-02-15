@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Threading;
 
@@ -14,12 +15,16 @@ public class ModelSwitch : MonoBehaviour
     private RiskFeedback[] feedbacks;
     private int activeModID;
     private float[] activeFeedbackPoints;
+    private Text textButton;
+    private string[] texts;
 
     void Awake()
     {
         models = new ModelController[] { controlM, controlF };
         feedbacks = new RiskFeedback[] { feedbackM, feedbackF };
         activeModID = initialModID;
+        textButton = GameObject.Find("Canvas/Canvas/ButtonModel").GetComponentInChildren<Text>();
+        texts = new string[] { "Female", "Male" };
     }
 
     void Start()
@@ -40,6 +45,7 @@ public class ModelSwitch : MonoBehaviour
         models[modID].ShowModel();
         activeModID = modID;
         ShowFeedback();
+        textButton.text = texts[activeModID];
     }
 
     void Update()
