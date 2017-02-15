@@ -1,21 +1,26 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Threading;
 
 public class CameraSwitch : MonoBehaviour {
-    public GameObject cameraR;
-    public GameObject cameraM;
-    public GameObject cameraL;
+    public GameObject cameraF;
     public GameObject cameraB;
+    public GameObject cameraR;
+    public GameObject cameraL;
     public int initialCamID;
 
     private GameObject[] cameras;
     private int activeCamID;
+    private Text textButton;
+    private string[] texts;
 
     void Awake()
     {
-        cameras = new GameObject[] { cameraR, cameraM, cameraL, cameraB };
+        cameras = new GameObject[] { cameraF, cameraB, cameraR, cameraL };
         activeCamID = initialCamID;
+        textButton = GameObject.Find("Canvas/Canvas/ButtonCamera").GetComponentInChildren<Text>();
+        texts = new string[] { "Back", "Front", "Back", "Back" };
     }
 
     void Start()
@@ -56,6 +61,7 @@ public class CameraSwitch : MonoBehaviour {
         ActivateCamera(activeCamID, false);
         ActivateCamera(camID, true);
         activeCamID = camID;
+        textButton.text = texts[activeCamID];
     }
 
     void Update()
