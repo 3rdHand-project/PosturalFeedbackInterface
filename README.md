@@ -37,7 +37,7 @@ The color is determined by a float value ranging from 0 (green) to 1 (red).
 Updating the color can be performed by sending an array of **8 floats** on channel **4**.
 The spheres are in the following order:
 **Spine**, **Neck**, **LeftArm**, **RightArm**, **LeftForeArm**, **RightForeArm**, **LeftHand**, **RightHand**.
-Each name correspond to the name of the transformation in the humanoid model.
+Each name corresponds to the name of the transformation in the humanoid model.
 In the file [RiskFeedback.cs](Assets/Scripts/RiskFeedback.cs) at line 12 you can also change the list to add more spheres or change their order
 
 ```C#
