@@ -1,4 +1,4 @@
-# UnityAvatarControl
+# Postural Feedback Interface
 
 ## Introduction
 
@@ -9,14 +9,15 @@ Joints at risk are displayed with a red sphere as illustrated in the following p
 ![Graphical interface male](Pictures/male_front.png?raw=true "The graphical interface with the male model in front view" =100x)
 ![Graphical interface female](Pictures/female_front.png?raw=true "The same view with the female model")
 
-A video of the graphical interface at used can be found on our [vimeo channel](https://vimeo.com/163699896).
+A video of the graphical interface at used can be found on our [vimeo channel](https://vimeo.com/163699896). The humanoid models are from [Mixamo website](https://www.mixamo.com/) and available without license or restriction of use. 
 
 ## Usage
 
 This application requires Unity 5.5.1 to run.
 It can be compiled as windows executable or an android application.
-At the moment, it cannot be compiled as a WebGL application as UDP socket are unavailable.
+At the moment, it cannot be compiled as a WebGL application as UDP socket are unavailable for Unity WebGL projects.
 When launched, it waits for messages sent as UDP byte array on the port **5005**.
+The default port can be changed in the file [UDPManager.cs](Assets/Scripts/UDPManager.cs)
 The following block of code is an example in python to update the joint values of the humanoid model.
 
 ```python
@@ -24,7 +25,7 @@ import socket
 import struct
 
 ip = your_ip # the ip of the machine where the Unity application is running
-port = 5005
+port = 5005 # port as defined in UDPManager.cs
 
 channel = 1 # Number of the channel to orient the message correctly (see below)
 vect = joint_vector # put here is the joint values to send. It is waiting for an array of 92 floats.
@@ -43,7 +44,7 @@ Updating the color can be performed by sending an array of **8 floats** on chann
 The spheres are in the following order:
 **Spine**, **Neck**, **LeftArm**, **RightArm**, **LeftForeArm**, **RightForeArm**, **LeftHand**, **RightHand**.
 Each name corresponds to the name of the transformation in the humanoid model.
-In the file [RiskFeedback.cs](Assets/Scripts/RiskFeedback.cs) at line 12 you can also change the list to add more spheres or change their order
+In the file [RiskFeedback.cs](Assets/Scripts/RiskFeedback.cs) at line 12 you can also change the list to add/remove spheres or change their order
 
 ```C#
 sphereNames = new List<string>() { "Spine", "Neck", "LeftArm", "RightArm", "LeftForeArm", "RightForeArm", "LeftFoot", "RightFoot"};
