@@ -67,12 +67,10 @@ public class CameraSwitch : MonoBehaviour {
     void Update()
     {
         if (Input.GetKey("a"))
-            ShowView(0);
-        if (Input.GetKey("z"))
-            ShowView(1);
-        if (Input.GetKey("e"))
             ShowView(2);
-        if (Input.GetKey("r"))
+        if (Input.GetKey("z"))
+            ShowView(0);
+        if (Input.GetKey("e"))
             ShowView(3);
     }
 }
