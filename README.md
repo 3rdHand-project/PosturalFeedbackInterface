@@ -14,7 +14,7 @@ A video of the graphical interface at used can be found on our [vimeo channel](h
 ## Usage
 
 This application requires Unity 5.5.1 to run.
-It can be compiled as windows executable or an android application.
+It can be compiled as a Windows or Linux executable or an android application.
 At the moment, it cannot be compiled as a WebGL application as UDP socket are unavailable for Unity WebGL projects.
 When launched, it waits for messages sent as UDP byte array on the port **5005**.
 The default port can be changed in the file [UDPManager.cs](Assets/Scripts/UDPManager.cs)
