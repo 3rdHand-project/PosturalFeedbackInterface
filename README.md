@@ -6,7 +6,7 @@ This repository contains Unity codes and C# scripts to animate a humanoid model 
 This graphical interface is part of a bigger project that analyzes the risk of body postures using ergonomic techniques. 
 Joints at risk are displayed with a red sphere as illustrated in the following pictures.
 
-![Graphical interface male](Pictures/male_front.png?raw=true "The graphical interface with the male model in front view" =100x)
+![Graphical interface male](Pictures/male_front.png?raw=true "The graphical interface with the male model in front view")
 ![Graphical interface female](Pictures/female_front.png?raw=true "The same view with the female model")
 
 A video of the graphical interface at used can be found on our [vimeo channel](https://vimeo.com/163699896). The humanoid models are from [Mixamo website](https://www.mixamo.com/) and available without license or restriction of use. 
